@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>title</title>
+    <link rel="stylesheet" href="style.css" />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+      integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <h1>All of the Lights</h1>
+    <p>
+      Hi there, my friend. Let's make the colored light show of your dreams.
+    </p>
+
+    <form>
+      <label for="red">Red</label>
+      <input id="red" type="text" />
+
+      <label for="green">Green</label>
+      <input id="green" type="text" />
+
+      <label for="blue">Blue</label>
+      <input id="blue" type="text" />
+
+      <button type="submit">DO IT!</button>
+    </form>
+
+    <script>
+      $("form").submit((event) => {
+        event.preventDefault();
+
+        const red = $("#red").val();
+        const green = $("#green").val();
+        const blue = $("#blue").val();
+        $.post("http://192.168.86.21/update", { red, green, blue });
+      });
+    </script>
+  </body>
+</html>
