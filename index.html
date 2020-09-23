@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>title</title>
+    <title>All of the Lights</title>
     <link rel="stylesheet" href="style.css" />
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
@@ -17,26 +17,46 @@
     </p>
 
     <form>
-      <label for="red">Red</label>
-      <input id="red" type="text" />
+      <div class="colors">
+        <input type="color" class="color" />
+      </div>
+      <button type="button" id="add-color">More!</button>
 
-      <label for="green">Green</label>
-      <input id="green" type="text" />
-
-      <label for="blue">Blue</label>
-      <input id="blue" type="text" />
-
-      <button type="submit">DO IT!</button>
+      <div style="margin-top: 16px">
+        <button type="submit">DO IT!</button>
+      </div>
     </form>
 
     <script>
+      const hexToRgb = (hex) => {
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result
+          ? {
+              r: parseInt(result[1], 16),
+              g: parseInt(result[2], 16),
+              b: parseInt(result[3], 16),
+            }
+          : null;
+      };
+
+      $("#add-color").on("click", () => {
+        $(".colors").append('<input type="color" class="color" />');
+      });
+
       $("form").submit((event) => {
         event.preventDefault();
 
-        const red = $("#red").val();
-        const green = $("#green").val();
-        const blue = $("#blue").val();
-        $.post("http://192.168.86.21/update", { red, green, blue });
+        const colors = [];
+
+        $(".color").each(function () {
+          const rgb = hexToRgb($(this).val());
+          console.log("RGB", rgb);
+          colors.push(`${rgb.r},${rgb.g},${rgb.b}`);
+        });
+
+        $.post("http://192.168.86.24/update", {
+          colors: colors,
+        });
       });
     </script>
   </body>
